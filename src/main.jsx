@@ -2,44 +2,64 @@ import React, { useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles.css'
 
-const initialProfile = {
+const starterProfile = {
   name: 'Pratap',
-  headline: 'Frontend Developer | React Learner | Open Source Explorer',
+  headline: 'Frontend Developer crafting clean digital experiences',
   location: 'India',
-  bio: 'I build clean web interfaces, learn modern JavaScript tools, and document my coding journey through practical projects.',
-  currentlyWorking: 'a GitHub profile README generator',
-  currentlyLearning: 'React, Vite, Tailwind CSS, and full-stack development',
-  askMeAbout: 'React, JavaScript, GitHub, and web UI ideas',
+  bio: 'I build modern, responsive web interfaces and turn ideas into polished browser experiences. I enjoy working with React, clean layouts, and practical developer tools.',
+  currentlyWorking: 'Dev Profile Studio and portfolio-grade frontend projects',
+  currentlyLearning: 'React architecture, Tailwind CSS, Vite, and production deployment workflows',
+  askMeAbout: 'React, JavaScript, GitHub profiles, UI design, and web projects',
   email: 'your-email@example.com',
   github: 'ProCodesWithPratap',
   linkedin: 'your-linkedin',
   portfolio: 'https://your-portfolio.com',
   skills: 'HTML, CSS, JavaScript, React, Tailwind CSS, Git, GitHub, Vite',
-  tools: 'VS Code, Vercel, Canva, Google AI Studio',
-  funFact: 'I believe small daily commits build strong developer momentum.',
-  theme: 'radical',
+  tools: 'VS Code, Vercel, Canva, Google AI Studio, Chrome DevTools',
+  funFact: 'I believe consistency beats perfection when building developer momentum.',
+  theme: 'tokyonight',
+  accent: 'indigo',
   includeStats: true,
   includeStreak: true,
   includeTopLangs: true,
   includeVisitorBadge: true,
 }
 
-const templates = {
-  focused: {
-    headline: 'Frontend Developer focused on clean UI and practical web tools',
-    bio: 'I enjoy turning ideas into responsive interfaces and learning by building real projects.',
+const templates = [
+  {
+    key: 'creator',
+    title: 'Creator',
+    eyebrow: 'Portfolio energy',
+    description: 'Confident, visual, and polished for a public developer brand.',
+    patch: {
+      headline: 'Frontend Developer crafting clean digital experiences',
+      bio: 'I build modern, responsive web interfaces and turn ideas into polished browser experiences. I enjoy working with React, clean layouts, and practical developer tools.',
+    },
   },
-  student: {
-    headline: 'Student Developer | Learning React | Building in Public',
-    bio: 'I am growing my development skills through daily practice, small projects, and consistent GitHub activity.',
+  {
+    key: 'builder',
+    title: 'Builder',
+    eyebrow: 'Startup style',
+    description: 'Direct and product-focused for people building real things.',
+    patch: {
+      headline: 'Web Developer building fast, useful, and elegant products',
+      bio: 'I like creating practical tools that solve real problems. My focus is clean frontend architecture, reliable deployments, and user-friendly product design.',
+    },
   },
-  professional: {
-    headline: 'Web Developer building modern, responsive, and maintainable products',
-    bio: 'I work with modern frontend tools to create clean user experiences and developer-friendly applications.',
+  {
+    key: 'learner',
+    title: 'Learner',
+    eyebrow: 'Growth mode',
+    description: 'Best for a student or early developer growing in public.',
+    patch: {
+      headline: 'Student Developer learning, building, and improving every day',
+      bio: 'I am growing my skills through consistent practice, public projects, and hands-on learning. Every project helps me become a stronger developer.',
+    },
   },
-}
+]
 
-const themeOptions = ['radical', 'tokyonight', 'dark', 'onedark', 'dracula', 'merko', 'gruvbox']
+const themeOptions = ['tokyonight', 'radical', 'dark', 'onedark', 'dracula', 'merko', 'gruvbox']
+const accentOptions = ['indigo', 'cyan', 'violet', 'rose']
 
 function splitList(value) {
   return value
@@ -59,42 +79,19 @@ function generateMarkdown(profile) {
   const tools = splitList(profile.tools)
   const safeGithub = profile.github.trim() || 'your-github-username'
 
-  return `<h1 align="center">Hi 👋, I'm ${profile.name}</h1>\n<h3 align="center">${profile.headline}</h3>\n\n${
-    profile.includeVisitorBadge
-      ? `<p align="center">\n  <img src="https://komarev.com/ghpvc/?username=${safeGithub}&label=Profile%20views&color=0e75b6&style=flat" alt="profile views" />\n</p>\n\n`
-      : ''
-  }## About Me\n\n- 🔭 I’m currently working on **${profile.currentlyWorking}**\n- 🌱 I’m currently learning **${profile.currentlyLearning}**\n- 💬 Ask me about **${profile.askMeAbout}**\n- 📍 Based in **${profile.location}**\n- ⚡ Fun fact: **${profile.funFact}**\n\n${profile.bio}\n\n## Connect with Me\n\n<p align="left">\n  <a href="https://github.com/${safeGithub}" target="blank">GitHub</a> ·\n  <a href="https://www.linkedin.com/in/${profile.linkedin}" target="blank">LinkedIn</a> ·\n  <a href="mailto:${profile.email}">Email</a> ·\n  <a href="${profile.portfolio}" target="blank">Portfolio</a>\n</p>\n\n## Skills\n\n<p align="left">\n${skills.map((skill) => `  ${badge(skill)}`).join('\n')}\n</p>\n\n## Tools\n\n<p align="left">\n${tools.map((tool) => `  ${badge(tool)}`).join('\n')}\n</p>\n\n${
-    profile.includeStats
-      ? `## GitHub Stats\n\n<p align="center">\n  <img src="https://github-readme-stats.vercel.app/api?username=${safeGithub}&show_icons=true&theme=${profile.theme}" alt="${safeGithub} GitHub stats" />\n</p>\n\n`
-      : ''
-  }${
-    profile.includeStreak
-      ? `<p align="center">\n  <img src="https://streak-stats.demolab.com?user=${safeGithub}&theme=${profile.theme}" alt="${safeGithub} GitHub streak" />\n</p>\n\n`
-      : ''
-  }${
-    profile.includeTopLangs
-      ? `<p align="center">\n  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=${safeGithub}&layout=compact&theme=${profile.theme}" alt="${safeGithub} top languages" />\n</p>\n\n`
-      : ''
-  }---\n\n<p align="center">Generated with ❤️ using Dev Profile Studio</p>\n`
+  return `<div align="center">\n\n# Hi, I'm ${profile.name} 👋\n\n### ${profile.headline}\n\n${profile.includeVisitorBadge ? `![Profile views](https://komarev.com/ghpvc/?username=${safeGithub}&label=Profile%20views&color=6366f1&style=for-the-badge)\n\n` : ''}[![GitHub](https://img.shields.io/badge/GitHub-${safeGithub}-111827?style=for-the-badge&logo=github)](https://github.com/${safeGithub})\n[![LinkedIn](https://img.shields.io/badge/LinkedIn-${profile.linkedin}-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/${profile.linkedin})\n[![Portfolio](https://img.shields.io/badge/Portfolio-Visit-22c55e?style=for-the-badge)](${profile.portfolio})\n\n</div>\n\n---\n\n## About Me\n\n${profile.bio}\n\n- 🔭 Currently working on **${profile.currentlyWorking}**\n- 🌱 Currently learning **${profile.currentlyLearning}**\n- 💬 Ask me about **${profile.askMeAbout}**\n- 📍 Based in **${profile.location}**\n- ⚡ Fun fact: **${profile.funFact}**\n\n## Tech Stack\n\n<p align="left">\n${skills.map((skill) => `  ${badge(skill)}`).join('\n')}\n</p>\n\n## Tools I Use\n\n<p align="left">\n${tools.map((tool) => `  ${badge(tool)}`).join('\n')}\n</p>\n\n${profile.includeStats ? `## GitHub Analytics\n\n<p align="center">\n  <img height="165" src="https://github-readme-stats.vercel.app/api?username=${safeGithub}&show_icons=true&theme=${profile.theme}&hide_border=true" alt="${safeGithub} GitHub stats" />\n</p>\n\n` : ''}${profile.includeStreak ? `<p align="center">\n  <img src="https://streak-stats.demolab.com?user=${safeGithub}&theme=${profile.theme}&hide_border=true" alt="${safeGithub} GitHub streak" />\n</p>\n\n` : ''}${profile.includeTopLangs ? `<p align="center">\n  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=${safeGithub}&layout=compact&theme=${profile.theme}&hide_border=true" alt="${safeGithub} top languages" />\n</p>\n\n` : ''}<div align="center">\n\n### Thanks for visiting my profile.\n\nGenerated with **Dev Profile Studio**\n\n</div>\n`
 }
 
-function Field({ label, name, value, onChange, textarea = false, placeholder }) {
-  const shared =
-    'w-full rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100'
+function Field({ label, name, value, onChange, textarea = false }) {
+  const className = 'w-full rounded-2xl border border-white/10 bg-white/[0.07] px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-cyan-300/60 focus:bg-white/[0.10] focus:ring-4 focus:ring-cyan-300/10'
 
   return (
     <label className="block">
-      <span className="mb-2 block text-sm font-semibold text-slate-700">{label}</span>
+      <span className="mb-2 block text-xs font-bold uppercase tracking-[0.18em] text-slate-400">{label}</span>
       {textarea ? (
-        <textarea
-          className={`${shared} min-h-24 resize-y`}
-          name={name}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-        />
+        <textarea className={`${className} min-h-24 resize-y`} name={name} value={value} onChange={onChange} />
       ) : (
-        <input className={shared} name={name} value={value} onChange={onChange} placeholder={placeholder} />
+        <input className={className} name={name} value={value} onChange={onChange} />
       )}
     </label>
   )
@@ -102,30 +99,97 @@ function Field({ label, name, value, onChange, textarea = false, placeholder }) 
 
 function Toggle({ label, name, checked, onChange }) {
   return (
-    <label className="flex items-center justify-between gap-4 rounded-2xl border border-slate-200 bg-white/80 px-4 py-3">
-      <span className="text-sm font-medium text-slate-700">{label}</span>
-      <input
-        type="checkbox"
-        name={name}
-        checked={checked}
-        onChange={onChange}
-        className="h-5 w-5 accent-indigo-600"
-      />
+    <label className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-slate-200">
+      <span>{label}</span>
+      <input type="checkbox" name={name} checked={checked} onChange={onChange} className="h-5 w-5 accent-cyan-300" />
     </label>
   )
 }
 
-function IconBadge({ children }) {
+function Metric({ value, label }) {
   return (
-    <span className="inline-grid h-5 w-5 place-items-center rounded-md bg-indigo-100 text-xs font-black text-indigo-700">
-      {children}
-    </span>
+    <div className="rounded-3xl border border-white/10 bg-white/[0.07] p-4 text-center backdrop-blur">
+      <div className="text-2xl font-black text-white">{value}</div>
+      <div className="mt-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">{label}</div>
+    </div>
+  )
+}
+
+function SkillPills({ items }) {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {items.slice(0, 12).map((item) => (
+        <span key={item} className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs font-bold text-cyan-100">
+          {item}
+        </span>
+      ))}
+    </div>
+  )
+}
+
+function ReadmePreview({ profile }) {
+  const skills = splitList(profile.skills)
+  const tools = splitList(profile.tools)
+
+  return (
+    <article className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#0d1117] text-slate-100 shadow-2xl shadow-black/30">
+      <div className="border-b border-white/10 bg-white/[0.03] px-5 py-4">
+        <div className="flex items-center gap-2">
+          <span className="h-3 w-3 rounded-full bg-rose-400" />
+          <span className="h-3 w-3 rounded-full bg-amber-300" />
+          <span className="h-3 w-3 rounded-full bg-emerald-400" />
+          <span className="ml-3 rounded-full bg-white/[0.07] px-3 py-1 text-xs text-slate-400">README.md preview</span>
+        </div>
+      </div>
+
+      <div className="p-6 sm:p-8">
+        <div className="rounded-[1.5rem] border border-cyan-300/20 bg-gradient-to-br from-cyan-300/10 via-indigo-500/10 to-fuchsia-500/10 p-6 text-center">
+          <div className="mx-auto grid h-20 w-20 place-items-center rounded-3xl bg-gradient-to-br from-cyan-300 to-indigo-400 text-3xl font-black text-slate-950 shadow-xl shadow-cyan-500/20">
+            {profile.name.slice(0, 1).toUpperCase()}
+          </div>
+          <h2 className="mt-5 text-3xl font-black tracking-tight text-white">Hi, I'm {profile.name} 👋</h2>
+          <p className="mx-auto mt-2 max-w-xl text-sm leading-6 text-slate-300">{profile.headline}</p>
+          <div className="mt-5 flex flex-wrap justify-center gap-2">
+            <span className="rounded-full bg-white/[0.08] px-3 py-1 text-xs font-bold">@{profile.github}</span>
+            <span className="rounded-full bg-white/[0.08] px-3 py-1 text-xs font-bold">{profile.location}</span>
+            <span className="rounded-full bg-white/[0.08] px-3 py-1 text-xs font-bold">Portfolio Ready</span>
+          </div>
+        </div>
+
+        <section className="mt-7 grid gap-4 md:grid-cols-3">
+          <Metric value={skills.length} label="Skills" />
+          <Metric value={tools.length} label="Tools" />
+          <Metric value="Live" label="Export" />
+        </section>
+
+        <section className="mt-7 rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+          <h3 className="text-lg font-black text-white">About Me</h3>
+          <p className="mt-3 text-sm leading-7 text-slate-300">{profile.bio}</p>
+          <div className="mt-5 grid gap-3 text-sm text-slate-300">
+            <p><span className="text-cyan-200">Working on:</span> {profile.currentlyWorking}</p>
+            <p><span className="text-cyan-200">Learning:</span> {profile.currentlyLearning}</p>
+            <p><span className="text-cyan-200">Ask me about:</span> {profile.askMeAbout}</p>
+          </div>
+        </section>
+
+        <section className="mt-7 rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+          <h3 className="text-lg font-black text-white">Tech Stack</h3>
+          <div className="mt-4"><SkillPills items={skills} /></div>
+        </section>
+
+        <section className="mt-7 grid gap-4 md:grid-cols-2">
+          {profile.includeStats && <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-5"><p className="font-bold text-white">GitHub Stats Card</p><div className="mt-4 h-24 rounded-2xl bg-gradient-to-r from-indigo-500/20 to-cyan-400/20" /></div>}
+          {profile.includeStreak && <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-5"><p className="font-bold text-white">Contribution Streak</p><div className="mt-4 h-24 rounded-2xl bg-gradient-to-r from-fuchsia-500/20 to-rose-400/20" /></div>}
+        </section>
+      </div>
+    </article>
   )
 }
 
 function App() {
-  const [profile, setProfile] = useState(initialProfile)
+  const [profile, setProfile] = useState(starterProfile)
   const [copied, setCopied] = useState(false)
+  const [activeView, setActiveView] = useState('preview')
   const markdown = useMemo(() => generateMarkdown(profile), [profile])
 
   function updateProfile(event) {
@@ -133,10 +197,18 @@ function App() {
     setProfile((current) => ({ ...current, [name]: type === 'checkbox' ? checked : value }))
   }
 
+  function applyTemplate(template) {
+    setProfile((current) => ({ ...current, ...template.patch }))
+  }
+
   async function copyMarkdown() {
-    await navigator.clipboard.writeText(markdown)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 1600)
+    try {
+      await navigator.clipboard.writeText(markdown)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 1500)
+    } catch {
+      setCopied(false)
+    }
   }
 
   function downloadMarkdown() {
@@ -149,65 +221,88 @@ function App() {
     URL.revokeObjectURL(url)
   }
 
-  function applyTemplate(templateName) {
-    setProfile((current) => ({ ...current, ...templates[templateName] }))
-  }
-
-  function resetForm() {
-    setProfile(initialProfile)
-  }
-
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top_left,#e0e7ff,transparent_32%),linear-gradient(135deg,#f8fafc,#eef2ff)] text-slate-950">
-      <section className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-5 py-8 lg:px-8">
-        <header className="overflow-hidden rounded-[2rem] border border-white/70 bg-white/75 p-6 shadow-xl shadow-indigo-100/70 backdrop-blur lg:p-8">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+    <main className="premium-shell min-h-screen text-white">
+      <div className="aurora-one" />
+      <div className="aurora-two" />
+
+      <section className="relative mx-auto w-full max-w-7xl px-5 py-6 lg:px-8">
+        <nav className="flex items-center justify-between rounded-full border border-white/10 bg-white/[0.06] px-4 py-3 backdrop-blur-xl">
+          <div className="flex items-center gap-3">
+            <div className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-cyan-300 to-indigo-400 font-black text-slate-950">D</div>
             <div>
-              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-700">
-                <IconBadge>✦</IconBadge> Dev Profile Studio
-              </div>
-              <h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">
-                Build a clean GitHub profile README in minutes.
-              </h1>
-              <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600 md:text-lg">
-                Fill your details, preview the generated markdown, then copy or download your README.md file.
-              </p>
+              <p className="text-sm font-black leading-none">Dev Profile Studio</p>
+              <p className="mt-1 text-xs text-slate-400">README generator</p>
             </div>
-            <div className="grid gap-3 rounded-3xl bg-slate-950 p-5 text-white shadow-2xl shadow-slate-300 md:min-w-72">
-              <div className="flex items-center gap-3">
-                <IconBadge>⌘</IconBadge>
-                <span className="font-semibold">README Generator</span>
+          </div>
+          <div className="hidden rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-cyan-100 sm:block">Live Builder</div>
+        </nav>
+
+        <header className="grid items-center gap-8 py-12 lg:grid-cols-[1.05fr_0.95fr] lg:py-16">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-fuchsia-300/20 bg-fuchsia-300/10 px-4 py-2 text-xs font-black uppercase tracking-[0.22em] text-fuchsia-100">
+              Premium GitHub Branding
+            </div>
+            <h1 className="mt-6 max-w-4xl text-5xl font-black leading-[0.95] tracking-[-0.05em] text-white md:text-7xl">
+              Turn your GitHub profile into a polished developer brand.
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
+              Build a clean, professional README with profile sections, social links, stack badges, analytics cards, and export-ready markdown.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <button onClick={copyMarkdown} className="rounded-full bg-white px-6 py-3 text-sm font-black text-slate-950 shadow-xl shadow-cyan-500/10 transition hover:-translate-y-0.5 hover:bg-cyan-100">
+                {copied ? 'Copied Markdown ✓' : 'Copy README'}
+              </button>
+              <button onClick={downloadMarkdown} className="rounded-full border border-white/15 bg-white/[0.06] px-6 py-3 text-sm font-black text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/[0.10]">
+                Download README.md
+              </button>
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-br from-cyan-400/20 via-indigo-500/10 to-fuchsia-500/20 blur-2xl" />
+            <div className="relative rounded-[2rem] border border-white/10 bg-white/[0.07] p-5 shadow-2xl shadow-black/30 backdrop-blur-xl">
+              <div className="rounded-[1.5rem] bg-slate-950 p-5">
+                <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                  <span className="text-sm font-bold text-slate-300">Profile score</span>
+                  <span className="rounded-full bg-emerald-400/10 px-3 py-1 text-xs font-black text-emerald-200">Ready</span>
+                </div>
+                <div className="mt-6 grid gap-4 sm:grid-cols-3">
+                  <Metric value="12+" label="Sections" />
+                  <Metric value="1" label="Click Export" />
+                  <Metric value="100%" label="Responsive" />
+                </div>
+                <div className="mt-5 rounded-3xl border border-white/10 bg-white/[0.05] p-5">
+                  <p className="text-sm font-black text-white">Generated for</p>
+                  <p className="mt-2 text-3xl font-black tracking-tight text-cyan-100">@{profile.github}</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-400">{profile.headline}</p>
+                </div>
               </div>
-              <p className="text-sm leading-6 text-slate-300">
-                Includes badges, GitHub stats, streak cards, top languages, links, and personal intro sections.
-              </p>
             </div>
           </div>
         </header>
 
-        <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-          <section className="rounded-[2rem] border border-white/70 bg-white/80 p-5 shadow-xl shadow-slate-200/70 backdrop-blur lg:p-6">
-            <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <section className="grid gap-6 lg:grid-cols-[420px_1fr]">
+          <aside className="rounded-[2rem] border border-white/10 bg-slate-950/70 p-5 shadow-2xl shadow-black/20 backdrop-blur-xl lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
+            <div className="mb-5 flex items-center justify-between">
               <div>
-                <h2 className="text-2xl font-bold text-slate-950">Profile Details</h2>
-                <p className="text-sm text-slate-500">Customize the sections used in your README.</p>
+                <h2 className="text-2xl font-black tracking-tight">Control Panel</h2>
+                <p className="mt-1 text-sm text-slate-400">Edit once. Preview instantly.</p>
               </div>
-              <button
-                onClick={resetForm}
-                className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-indigo-200 hover:text-indigo-700"
-              >
-                <span>↻</span> Reset
-              </button>
+              <button onClick={() => setProfile(starterProfile)} className="rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-xs font-black text-slate-200 hover:bg-white/[0.10]">Reset</button>
             </div>
 
-            <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
-              {Object.keys(templates).map((templateName) => (
-                <button
-                  key={templateName}
-                  onClick={() => applyTemplate(templateName)}
-                  className="rounded-2xl border border-indigo-100 bg-indigo-50 px-4 py-3 text-sm font-bold capitalize text-indigo-700 transition hover:bg-indigo-100"
-                >
-                  {templateName}
+            <div className="mb-6 grid gap-3">
+              {templates.map((template) => (
+                <button key={template.key} onClick={() => applyTemplate(template)} className="rounded-3xl border border-white/10 bg-white/[0.05] p-4 text-left transition hover:-translate-y-0.5 hover:border-cyan-300/30 hover:bg-cyan-300/10">
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <p className="text-base font-black text-white">{template.title}</p>
+                      <p className="mt-1 text-xs font-bold uppercase tracking-[0.18em] text-cyan-200">{template.eyebrow}</p>
+                    </div>
+                    <span className="text-xl">→</span>
+                  </div>
+                  <p className="mt-3 text-sm leading-6 text-slate-400">{template.description}</p>
                 </button>
               ))}
             </div>
@@ -215,91 +310,67 @@ function App() {
             <div className="grid gap-4">
               <Field label="Name" name="name" value={profile.name} onChange={updateProfile} />
               <Field label="Headline" name="headline" value={profile.headline} onChange={updateProfile} />
-              <Field label="Short Bio" name="bio" value={profile.bio} onChange={updateProfile} textarea />
-              <div className="grid gap-4 md:grid-cols-2">
+              <Field label="Bio" name="bio" value={profile.bio} onChange={updateProfile} textarea />
+              <div className="grid gap-4 sm:grid-cols-2">
                 <Field label="Location" name="location" value={profile.location} onChange={updateProfile} />
-                <Field label="GitHub Username" name="github" value={profile.github} onChange={updateProfile} />
+                <Field label="GitHub" name="github" value={profile.github} onChange={updateProfile} />
               </div>
-              <Field label="Currently Working On" name="currentlyWorking" value={profile.currentlyWorking} onChange={updateProfile} />
+              <Field label="Currently Working" name="currentlyWorking" value={profile.currentlyWorking} onChange={updateProfile} />
               <Field label="Currently Learning" name="currentlyLearning" value={profile.currentlyLearning} onChange={updateProfile} />
               <Field label="Ask Me About" name="askMeAbout" value={profile.askMeAbout} onChange={updateProfile} />
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <Field label="Email" name="email" value={profile.email} onChange={updateProfile} />
-                <Field label="LinkedIn Username" name="linkedin" value={profile.linkedin} onChange={updateProfile} />
+                <Field label="LinkedIn" name="linkedin" value={profile.linkedin} onChange={updateProfile} />
               </div>
-              <Field label="Portfolio URL" name="portfolio" value={profile.portfolio} onChange={updateProfile} />
-              <Field label="Skills, comma separated" name="skills" value={profile.skills} onChange={updateProfile} textarea />
-              <Field label="Tools, comma separated" name="tools" value={profile.tools} onChange={updateProfile} textarea />
+              <Field label="Portfolio" name="portfolio" value={profile.portfolio} onChange={updateProfile} />
+              <Field label="Skills" name="skills" value={profile.skills} onChange={updateProfile} textarea />
+              <Field label="Tools" name="tools" value={profile.tools} onChange={updateProfile} textarea />
               <Field label="Fun Fact" name="funFact" value={profile.funFact} onChange={updateProfile} />
 
               <label className="block">
-                <span className="mb-2 block text-sm font-semibold text-slate-700">Stats Theme</span>
-                <select
-                  name="theme"
-                  value={profile.theme}
-                  onChange={updateProfile}
-                  className="w-full rounded-2xl border border-slate-200 bg-white/80 px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100"
-                >
-                  {themeOptions.map((theme) => (
-                    <option key={theme} value={theme}>
-                      {theme}
-                    </option>
-                  ))}
+                <span className="mb-2 block text-xs font-bold uppercase tracking-[0.18em] text-slate-400">Stats Theme</span>
+                <select name="theme" value={profile.theme} onChange={updateProfile} className="w-full rounded-2xl border border-white/10 bg-white/[0.07] px-4 py-3 text-sm text-white outline-none focus:border-cyan-300/60">
+                  {themeOptions.map((theme) => <option key={theme} value={theme} className="bg-slate-950">{theme}</option>)}
                 </select>
               </label>
 
-              <div className="grid gap-3 md:grid-cols-2">
-                <Toggle label="Include GitHub stats" name="includeStats" checked={profile.includeStats} onChange={updateProfile} />
-                <Toggle label="Include streak card" name="includeStreak" checked={profile.includeStreak} onChange={updateProfile} />
-                <Toggle label="Include top languages" name="includeTopLangs" checked={profile.includeTopLangs} onChange={updateProfile} />
-                <Toggle label="Include visitor badge" name="includeVisitorBadge" checked={profile.includeVisitorBadge} onChange={updateProfile} />
+              <div className="grid gap-3">
+                <Toggle label="Visitor badge" name="includeVisitorBadge" checked={profile.includeVisitorBadge} onChange={updateProfile} />
+                <Toggle label="GitHub stats" name="includeStats" checked={profile.includeStats} onChange={updateProfile} />
+                <Toggle label="Contribution streak" name="includeStreak" checked={profile.includeStreak} onChange={updateProfile} />
+                <Toggle label="Top languages" name="includeTopLangs" checked={profile.includeTopLangs} onChange={updateProfile} />
               </div>
             </div>
-          </section>
+          </aside>
 
-          <section className="rounded-[2rem] border border-slate-900/10 bg-slate-950 p-5 text-white shadow-2xl shadow-slate-300 lg:p-6">
-            <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+          <section className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-4 shadow-2xl shadow-black/20 backdrop-blur-xl sm:p-6">
+            <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h2 className="flex items-center gap-2 text-2xl font-bold">
-                  <IconBadge>&lt;/&gt;</IconBadge> Generated README
-                </h2>
-                <p className="text-sm text-slate-400">Copy this into your GitHub profile repository README.md.</p>
+                <h2 className="text-2xl font-black tracking-tight">Output Studio</h2>
+                <p className="mt-1 text-sm text-slate-400">Preview the README or copy the exact markdown.</p>
               </div>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={copyMarkdown}
-                  className="inline-flex items-center gap-2 rounded-2xl bg-indigo-500 px-4 py-2 text-sm font-bold text-white transition hover:bg-indigo-400"
-                >
-                  <span>{copied ? '✓' : '⧉'}</span> {copied ? 'Copied' : 'Copy'}
-                </button>
-                <button
-                  onClick={downloadMarkdown}
-                  className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-bold text-slate-950 transition hover:bg-slate-100"
-                >
-                  <span>↓</span> Download
-                </button>
+              <div className="flex rounded-full border border-white/10 bg-slate-950/70 p-1">
+                <button onClick={() => setActiveView('preview')} className={`rounded-full px-4 py-2 text-sm font-black transition ${activeView === 'preview' ? 'bg-white text-slate-950' : 'text-slate-300 hover:text-white'}`}>Preview</button>
+                <button onClick={() => setActiveView('markdown')} className={`rounded-full px-4 py-2 text-sm font-black transition ${activeView === 'markdown' ? 'bg-white text-slate-950' : 'text-slate-300 hover:text-white'}`}>Markdown</button>
               </div>
             </div>
 
-            <textarea
-              value={markdown}
-              className="h-[620px] w-full resize-none rounded-3xl border border-white/10 bg-slate-900 p-5 font-mono text-sm leading-6 text-slate-100 outline-none"
-              spellCheck="false"
-              readOnly
-            />
-
-            <div className="mt-5 grid gap-3 rounded-3xl border border-white/10 bg-white/5 p-4 text-sm text-slate-300 md:grid-cols-3">
-              <div className="flex items-center gap-2"><IconBadge>G</IconBadge> Profile ready</div>
-              <div className="flex items-center gap-2"><IconBadge>in</IconBadge> Social links</div>
-              <div className="flex items-center gap-2"><IconBadge>@</IconBadge> Contact section</div>
-            </div>
+            {activeView === 'preview' ? (
+              <ReadmePreview profile={profile} />
+            ) : (
+              <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950 shadow-2xl shadow-black/30">
+                <div className="flex flex-col gap-3 border-b border-white/10 bg-white/[0.04] px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+                  <span className="font-black text-white">README.md</span>
+                  <div className="flex gap-2">
+                    <button onClick={copyMarkdown} className="rounded-full bg-cyan-300 px-4 py-2 text-xs font-black text-slate-950">{copied ? 'Copied ✓' : 'Copy'}</button>
+                    <button onClick={downloadMarkdown} className="rounded-full border border-white/10 px-4 py-2 text-xs font-black text-white">Download</button>
+                  </div>
+                </div>
+                <textarea value={markdown} readOnly spellCheck="false" className="h-[720px] w-full resize-none bg-slate-950 p-5 font-mono text-sm leading-6 text-slate-100 outline-none" />
+              </div>
+            )}
           </section>
-        </div>
-
-        <footer className="flex flex-col items-center justify-between gap-3 rounded-[2rem] border border-white/70 bg-white/70 p-5 text-sm text-slate-500 shadow-lg shadow-slate-200/70 md:flex-row">
-          <span>Made for developers who want a polished GitHub presence.</span>
-          <span className="inline-flex items-center gap-2 font-semibold text-indigo-700"><IconBadge>✨</IconBadge> Edit, copy, publish.</span>
-        </footer>
+        </section>
       </section>
     </main>
   )
