@@ -1,17 +1,5 @@
 import React, { useMemo, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import {
-  Check,
-  Clipboard,
-  Code2,
-  Download,
-  Github,
-  Mail,
-  RefreshCw,
-  Sparkles,
-  Terminal,
-  Wand2,
-} from 'lucide-react'
 import './styles.css'
 
 const initialProfile = {
@@ -61,7 +49,9 @@ function splitList(value) {
 }
 
 function badge(label) {
-  return `![${label}](https://img.shields.io/badge/${encodeURIComponent(label)}-111827?style=for-the-badge&logo=${encodeURIComponent(label.toLowerCase())}&logoColor=white)`
+  const cleanLabel = encodeURIComponent(label)
+  const cleanLogo = encodeURIComponent(label.toLowerCase())
+  return `![${label}](https://img.shields.io/badge/${cleanLabel}-111827?style=for-the-badge&logo=${cleanLogo}&logoColor=white)`
 }
 
 function generateMarkdown(profile) {
@@ -125,10 +115,10 @@ function Toggle({ label, name, checked, onChange }) {
   )
 }
 
-function LinkedinMark() {
+function IconBadge({ children }) {
   return (
-    <span className="grid h-4 w-4 place-items-center rounded bg-slate-400 text-[9px] font-black leading-none text-slate-950">
-      in
+    <span className="inline-grid h-5 w-5 place-items-center rounded-md bg-indigo-100 text-xs font-black text-indigo-700">
+      {children}
     </span>
   )
 }
@@ -174,7 +164,7 @@ function App() {
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-700">
-                <Sparkles size={16} /> Dev Profile Studio
+                <IconBadge>✦</IconBadge> Dev Profile Studio
               </div>
               <h1 className="max-w-3xl text-4xl font-black tracking-tight text-slate-950 md:text-6xl">
                 Build a clean GitHub profile README in minutes.
@@ -185,7 +175,7 @@ function App() {
             </div>
             <div className="grid gap-3 rounded-3xl bg-slate-950 p-5 text-white shadow-2xl shadow-slate-300 md:min-w-72">
               <div className="flex items-center gap-3">
-                <Terminal className="text-indigo-300" />
+                <IconBadge>⌘</IconBadge>
                 <span className="font-semibold">README Generator</span>
               </div>
               <p className="text-sm leading-6 text-slate-300">
@@ -206,7 +196,7 @@ function App() {
                 onClick={resetForm}
                 className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-indigo-200 hover:text-indigo-700"
               >
-                <RefreshCw size={16} /> Reset
+                <span>↻</span> Reset
               </button>
             </div>
 
@@ -271,7 +261,7 @@ function App() {
             <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
               <div>
                 <h2 className="flex items-center gap-2 text-2xl font-bold">
-                  <Code2 className="text-indigo-300" /> Generated README
+                  <IconBadge>&lt;/&gt;</IconBadge> Generated README
                 </h2>
                 <p className="text-sm text-slate-400">Copy this into your GitHub profile repository README.md.</p>
               </div>
@@ -280,36 +270,35 @@ function App() {
                   onClick={copyMarkdown}
                   className="inline-flex items-center gap-2 rounded-2xl bg-indigo-500 px-4 py-2 text-sm font-bold text-white transition hover:bg-indigo-400"
                 >
-                  {copied ? <Check size={16} /> : <Clipboard size={16} />} {copied ? 'Copied' : 'Copy'}
+                  <span>{copied ? '✓' : '⧉'}</span> {copied ? 'Copied' : 'Copy'}
                 </button>
                 <button
                   onClick={downloadMarkdown}
                   className="inline-flex items-center gap-2 rounded-2xl bg-white px-4 py-2 text-sm font-bold text-slate-950 transition hover:bg-slate-100"
                 >
-                  <Download size={16} /> Download
+                  <span>↓</span> Download
                 </button>
               </div>
             </div>
 
             <textarea
               value={markdown}
-              onChange={(event) => event.preventDefault()}
               className="h-[620px] w-full resize-none rounded-3xl border border-white/10 bg-slate-900 p-5 font-mono text-sm leading-6 text-slate-100 outline-none"
               spellCheck="false"
               readOnly
             />
 
             <div className="mt-5 grid gap-3 rounded-3xl border border-white/10 bg-white/5 p-4 text-sm text-slate-300 md:grid-cols-3">
-              <div className="flex items-center gap-2"><Github size={16} /> Profile ready</div>
-              <div className="flex items-center gap-2"><LinkedinMark /> Social links</div>
-              <div className="flex items-center gap-2"><Mail size={16} /> Contact section</div>
+              <div className="flex items-center gap-2"><IconBadge>G</IconBadge> Profile ready</div>
+              <div className="flex items-center gap-2"><IconBadge>in</IconBadge> Social links</div>
+              <div className="flex items-center gap-2"><IconBadge>@</IconBadge> Contact section</div>
             </div>
           </section>
         </div>
 
         <footer className="flex flex-col items-center justify-between gap-3 rounded-[2rem] border border-white/70 bg-white/70 p-5 text-sm text-slate-500 shadow-lg shadow-slate-200/70 md:flex-row">
           <span>Made for developers who want a polished GitHub presence.</span>
-          <span className="inline-flex items-center gap-2 font-semibold text-indigo-700"><Wand2 size={16} /> Edit, copy, publish.</span>
+          <span className="inline-flex items-center gap-2 font-semibold text-indigo-700"><IconBadge>✨</IconBadge> Edit, copy, publish.</span>
         </footer>
       </section>
     </main>
