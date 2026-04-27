@@ -1,0 +1,23 @@
+{
+  "name": "dev-profile-studio",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "description": "A modern GitHub profile README generator for developers.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "typescript": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "tailwindcss": "latest",
+    "@tailwindcss/vite": "latest",
+    "lucide-react": "latest"
+  },
+  "devDependencies": {}
+}
