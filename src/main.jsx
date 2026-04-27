@@ -6,7 +6,6 @@ import {
   Code2,
   Download,
   Github,
-  Linkedin,
   Mail,
   RefreshCw,
   Sparkles,
@@ -123,6 +122,14 @@ function Toggle({ label, name, checked, onChange }) {
         className="h-5 w-5 accent-indigo-600"
       />
     </label>
+  )
+}
+
+function LinkedinMark() {
+  return (
+    <span className="grid h-4 w-4 place-items-center rounded bg-slate-400 text-[9px] font-black leading-none text-slate-950">
+      in
+    </span>
   )
 }
 
@@ -294,7 +301,7 @@ function App() {
 
             <div className="mt-5 grid gap-3 rounded-3xl border border-white/10 bg-white/5 p-4 text-sm text-slate-300 md:grid-cols-3">
               <div className="flex items-center gap-2"><Github size={16} /> Profile ready</div>
-              <div className="flex items-center gap-2"><Linkedin size={16} /> Social links</div>
+              <div className="flex items-center gap-2"><LinkedinMark /> Social links</div>
               <div className="flex items-center gap-2"><Mail size={16} /> Contact section</div>
             </div>
           </section>
